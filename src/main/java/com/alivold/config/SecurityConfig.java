@@ -1,5 +1,4 @@
 package com.alivold.config;
-
 import com.alivold.filter.JwtAuthenticationTokenFilter;
 import com.alivold.resp.ResponseResult;
 import com.fasterxml.jackson.databind.ObjectMapper;
