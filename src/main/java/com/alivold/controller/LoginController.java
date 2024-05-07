@@ -1,5 +1,6 @@
 package com.alivold.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.alivold.config.BaseException;
 import com.alivold.domain.SysUser;
 import com.alivold.resp.ResponseResult;
@@ -17,8 +18,8 @@ public class LoginController {
     private LoginService loginService;
 
     @PostMapping("/login")
-    public ResponseResult login(@RequestBody SysUser sysUser) {
-        return loginService.login(sysUser);
+    public ResponseResult login(@RequestBody JSONObject jsonObject) {
+        return loginService.login(jsonObject);
     }
 
     @PostMapping("/logout")

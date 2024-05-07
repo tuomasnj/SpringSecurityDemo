@@ -2,6 +2,7 @@ package com.alivold.service.impl;
 
 import cn.hutool.core.util.ObjectUtil;
 import com.alibaba.fastjson.JSONObject;
+import com.alivold.authentication.SmsCodeAuthenticationToken;
 import com.alivold.config.BaseException;
 import com.alivold.domain.LoginUser;
 import com.alivold.domain.SysUser;
@@ -12,7 +13,6 @@ import com.alivold.util.RedisCache;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -34,11 +34,11 @@ public class LoginServiceImpl implements LoginService {
     private RedisCache redisCache;
 
     @Override
-    public ResponseResult login(SysUser sysUser) {
+    public ResponseResult login(JSONObject jsonObject) {
         //进行用户认证
         Authentication authenticate = null;
         try{
-            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(sysUser.getUserName(), sysUser.getPassword());
+            SmsCodeAuthenticationToken authenticationToken = new SmsCodeAuthenticationToken(jsonObject.getString("phoneNumber"), jsonObject.getString("smsCode"));
             //authenticate是Authentication类型的，验证成功以后，authenticate携带了更为丰富的用户详细信息以及权限信息。
             authenticate = authenticationManager.authenticate(authenticationToken);
         }catch (Exception e){
@@ -64,7 +64,7 @@ public class LoginServiceImpl implements LoginService {
     @Override
     public ResponseResult logout() {
         //获取SecurityContextHolder中的用户id
-        UsernamePasswordAuthenticationToken authenticationToken = (UsernamePasswordAuthenticationToken)
+        SmsCodeAuthenticationToken authenticationToken = (SmsCodeAuthenticationToken)
                 SecurityContextHolder.getContext().getAuthentication();
         LoginUser loginUser = (LoginUser) authenticationToken.getPrincipal();
         String userId = loginUser.getUser().getId().toString();
