@@ -1,7 +1,6 @@
 package com.alivold.config;
 
 import com.alivold.filter.JwtAuthenticationTokenFilter;
-import com.alivold.handler.MyFailureHandler;
 import com.alivold.resp.ResponseResult;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,9 +29,6 @@ import java.io.PrintWriter;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter;
-
-    @Autowired
-    private MyFailureHandler myFailureHandler;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
