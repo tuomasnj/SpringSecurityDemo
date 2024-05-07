@@ -43,7 +43,7 @@ public class LoginServiceImpl implements LoginService {
             authenticate = authenticationManager.authenticate(authenticationToken);
         }catch (Exception e){
             e.printStackTrace();
-            throw new BaseException("服务异常");
+            throw new BaseException(e.getMessage());
         }
         //如果用户认证失败，提示
         if(ObjectUtil.isNull(authenticate)){
