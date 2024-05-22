@@ -44,3 +44,4 @@ gen/
 logs/
 log
 temp/
+application.yml
