@@ -99,7 +99,8 @@ public class UnitTest {
 
     @Test
     public void testPasswordEncoder(){
-        System.out.println(passwordEncoder.encode("12345"));
+        System.out.println(passwordEncoder.encode("666666"));
+        System.out.println(passwordEncoder.encode("888888"));
         System.out.println(passwordEncoder.matches("12345", "$2a$10$r.k0KC84wM3cGbOsuaJ/T.Z.6dsRRhqh6ElnSdIt2g6uQwqIHtjle"));
     }
 
