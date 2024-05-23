@@ -7,6 +7,7 @@ import com.alivold.dao.UserMapper;
 import com.alivold.domain.SysUser;
 import com.alivold.domain.User;
 import com.alivold.util.JwtUtil;
+import com.alivold.util.LoginUserInfoUtil;
 import com.alivold.util.RedisCache;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import io.jsonwebtoken.Claims;
@@ -138,4 +139,10 @@ public class UnitTest {
         Claims claims = JwtUtil.parseJwt(jwt);
         System.out.println(claims.getSubject());
     }
+
+    /*@Test
+    public void testLoginUserInfoUtil(){
+        log.info("当前登录的用户ID为【{}】", loginUserInfoUtil.getLoginUserId());
+        log.info("当前登录的用户为【{}】", new cn.hutool.json.JSONObject(loginUserInfoUtil.getLoginUser()));
+    }*/
 }

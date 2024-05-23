@@ -8,6 +8,7 @@ import com.alivold.domain.SysUser;
 import com.alivold.resp.ResponseResult;
 import com.alivold.service.LoginService;
 import com.alivold.util.JwtUtil;
+import com.alivold.util.LoginUserInfoUtil;
 import com.alivold.util.RedisCache;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,9 @@ public class LoginServiceImpl implements LoginService {
 
     @Autowired
     private RedisCache redisCache;
+
+    @Autowired
+    private LoginUserInfoUtil loginUserInfoUtil;
 
     @Override
     public ResponseResult login(SysUser sysUser) {
