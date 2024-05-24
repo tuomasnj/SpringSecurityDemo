@@ -31,7 +31,7 @@ public class InitController {
 //        user.setCreateTime(new Date());
 //        userMapper.insert(user);
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
-        queryWrapper.ge("username", "托马斯穆勒");
+        queryWrapper.eq("username", "托马斯穆勒");
         return ResponseResult.success(userMapper.selectList(queryWrapper));
     }
 }
