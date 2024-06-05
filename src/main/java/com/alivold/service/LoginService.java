@@ -7,5 +7,5 @@ import com.alivold.resp.ResponseResult;
 public interface LoginService {
     ResponseResult login(SysUser sysUser);
 
-    ResponseResult logout();
+    ResponseResult logout(String token);
 }

@@ -1,14 +1,14 @@
 package com.alivold.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.alivold.config.BaseException;
 import com.alivold.domain.SysUser;
 import com.alivold.resp.ResponseResult;
 import com.alivold.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("/user")
@@ -22,7 +22,8 @@ public class LoginController {
     }
 
     @PostMapping("/logout")
-    public ResponseResult logout(){
-        return loginService.logout();
+    public ResponseResult logout(@RequestHeader Map<String, String> headers){
+        String token = headers.get("token");
+        return loginService.logout(token);
     }
 }

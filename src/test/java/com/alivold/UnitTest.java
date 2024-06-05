@@ -100,8 +100,9 @@ public class UnitTest {
 
     @Test
     public void testPasswordEncoder(){
-        System.out.println(passwordEncoder.encode("12345"));
-        System.out.println(passwordEncoder.matches("12345", "$2a$10$r.k0KC84wM3cGbOsuaJ/T.Z.6dsRRhqh6ElnSdIt2g6uQwqIHtjle"));
+        // System.out.println(passwordEncoder.encode("66666"));
+        System.out.println(passwordEncoder.matches("888888", "$2a$10$1CwXFLv94XWRPq7.E8/Npe0yVxEbRQKXR/4DifP9izQRJ6Jcu8VTe"));
+        System.out.println(passwordEncoder.matches("666666", "$2a$10$ww9568ERH5BIkfuZE9AyEek7Ueppd4J8olti4YCMEFoDORBHEw4nu"));
     }
 
     @Test
@@ -139,10 +140,4 @@ public class UnitTest {
         Claims claims = JwtUtil.parseJwt(jwt);
         System.out.println(claims.getSubject());
     }
-
-    /*@Test
-    public void testLoginUserInfoUtil(){
-        log.info("当前登录的用户ID为【{}】", loginUserInfoUtil.getLoginUserId());
-        log.info("当前登录的用户为【{}】", new cn.hutool.json.JSONObject(loginUserInfoUtil.getLoginUser()));
-    }*/
 }

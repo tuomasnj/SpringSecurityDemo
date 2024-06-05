@@ -46,16 +46,15 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
         }
         String userId = claims.getSubject();
         //获取redis中的用户信息
-        SysUser sysUser = redisCache.getCacheObject(LOGIN_KEY + userId.toString());
-        if(ObjectUtil.isNull(sysUser)){
+        LoginUser loginUser = redisCache.getCacheObject(token);
+        if(ObjectUtil.isNull(loginUser)){
             throw new BaseException("jwt已过期");
         }else{
             //刷新token时间
             redisCache.expire(LOGIN_KEY + userId.toString(), 60* 60);
         }
         //用户信息存入SecurityContextHolder
-        // TODO: 2024/5/3 获取权限信息封装到 UsernamePasswordAuthenticationToken
-        SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(new LoginUser(sysUser), null, null));
+        SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(loginUser, null, loginUser.getAuthorities()));
         filterChain.doFilter(request, response); //放行
     }
 }

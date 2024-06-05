@@ -21,10 +21,8 @@ public class LoginUserInfoUtil {
         return userId;
     }
 
-    public SysUser getLoginUser(){
+    public LoginUser getLoginUser(){
         LoginUser loginUser= (LoginUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String userId = loginUser.getUser().getId().toString();
-        SysUser sysUser = redisCache.getCacheObject(LOGIN_KEY + userId);
-        return sysUser;
+        return loginUser;
     }
 }

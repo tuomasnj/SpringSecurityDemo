@@ -12,6 +12,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -29,7 +31,8 @@ public class UserDetailServiceImpl implements UserDetailsService {
         if(ObjectUtil.isNull(user)){
             throw new RuntimeException("用户名或密码不存在");
         }
-        return new LoginUser(user);
-        // TODO: 2024/5/2 查询对应的用户权限信息
+        //添加用户权限信息
+        List<String> permissions = Arrays.asList("admin", "test");
+        return new LoginUser(user, permissions);
     }
 }

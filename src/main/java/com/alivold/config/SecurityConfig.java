@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -27,6 +28,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 @Configuration
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter;
@@ -48,10 +50,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     public void commence(HttpServletRequest req, HttpServletResponse resp, AuthenticationException authException) throws IOException, ServletException {
                         resp.setContentType("application/json;charset=utf-8");
                         PrintWriter out = resp.getWriter();
-                        ResponseResult respBean = ResponseResult.fail("访问失败!");
-                        if (authException instanceof InsufficientAuthenticationException) {
-                            respBean.setMessage("认证失败，请重新登录!");
-                        }
+                        ResponseResult respBean = ResponseResult.fail("认证失败!");
                         out.write(new ObjectMapper().writeValueAsString(respBean));
                         out.flush();
                         out.close();

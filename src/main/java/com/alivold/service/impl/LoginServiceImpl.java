@@ -59,14 +59,14 @@ public class LoginServiceImpl implements LoginService {
         String jwt = JwtUtil.createJwt(userId.toString());
 
         //存入redis
-        redisCache.setCacheObject(LOGIN_KEY + userId.toString(), loginUser.getUser(), 60* 60);
+        redisCache.setCacheObject(jwt, loginUser, 60* 60);
         JSONObject res = new JSONObject();
         res.put("token", jwt);
         return ResponseResult.success(res);
     }
 
     @Override
-    public ResponseResult logout() {
+    public ResponseResult logout(String token) {
         //获取SecurityContextHolder中的用户id
         UsernamePasswordAuthenticationToken authenticationToken = (UsernamePasswordAuthenticationToken)
                 SecurityContextHolder.getContext().getAuthentication();
@@ -74,7 +74,7 @@ public class LoginServiceImpl implements LoginService {
         String userId = loginUser.getUser().getId().toString();
 
         //删除redis中的用户信息
-        redisCache.deleteObject(LOGIN_KEY + userId);
+        redisCache.deleteObject(token);
         return ResponseResult.success();
     }
 }
