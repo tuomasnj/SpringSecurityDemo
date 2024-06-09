@@ -6,6 +6,7 @@ import com.alivold.domain.SysUser;
 import com.alivold.resp.ResponseResult;
 import com.alivold.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -17,7 +18,7 @@ public class LoginController {
     private LoginService loginService;
 
     @PostMapping("/login")
-    public ResponseResult login(@RequestBody SysUser sysUser) {
+    public ResponseEntity<ResponseResult> login(@RequestBody SysUser sysUser) {
         return loginService.login(sysUser);
     }
 

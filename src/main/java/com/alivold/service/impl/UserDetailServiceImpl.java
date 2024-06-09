@@ -2,6 +2,7 @@ package com.alivold.service.impl;
 
 import cn.hutool.core.util.ObjectUtil;
 import com.alivold.config.BaseException;
+import com.alivold.dao.MenuMapper;
 import com.alivold.dao.SysUserMapper;
 import com.alivold.domain.LoginUser;
 import com.alivold.domain.SysUser;
@@ -21,6 +22,9 @@ public class UserDetailServiceImpl implements UserDetailsService {
     @Autowired
     private SysUserMapper sysUserMapper;
 
+    @Autowired
+    private MenuMapper menuMapper;
+
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException{
@@ -32,7 +36,8 @@ public class UserDetailServiceImpl implements UserDetailsService {
             throw new RuntimeException("用户名或密码不存在");
         }
         //添加用户权限信息
-        List<String> permissions = Arrays.asList("admin", "test");
+        //List<String> permissions = Arrays.asList("admin", "test");
+        List<String> permissions = menuMapper.selectPermsByUserId(user.getId());
         return new LoginUser(user, permissions);
     }
 }

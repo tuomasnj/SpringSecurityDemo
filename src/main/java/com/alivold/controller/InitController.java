@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
 
 
 @RestController
@@ -24,7 +25,7 @@ public class InitController {
     private UserMapper userMapper;
 
     @GetMapping("/hello")
-    @PreAuthorize("hasAuthority('test')")
+    @PreAuthorize("hasAuthority('sys:save')")
     public ResponseResult handleHello(){
 //        User user = new User();
 //        user.setUsername("托马斯穆勒");

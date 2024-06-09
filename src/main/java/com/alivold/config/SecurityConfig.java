@@ -1,5 +1,7 @@
 package com.alivold.config;
+
 import com.alivold.filter.CustomAccessDeniedHandler;
+import com.alivold.filter.CustomAuthenticationDeniedHandler;
 import com.alivold.filter.JwtAuthenticationTokenFilter;
 import com.alivold.resp.ResponseResult;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -43,20 +45,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new CustomAccessDeniedHandler();
     }
 
+    @Bean
+    public AuthenticationEntryPoint authenticationDeniedHandler() {
+        return new CustomAuthenticationDeniedHandler();
+    }
+
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
-                .csrf().disable().exceptionHandling().authenticationEntryPoint(new AuthenticationEntryPoint() {
-                    @Override
-                    public void commence(HttpServletRequest req, HttpServletResponse resp, AuthenticationException authException) throws IOException, ServletException {
-                        resp.setContentType("application/json;charset=utf-8");
-                        PrintWriter out = resp.getWriter();
-                        ResponseResult respBean = ResponseResult.fail("认证失败!");
-                        out.write(new ObjectMapper().writeValueAsString(respBean));
-                        out.flush();
-                        out.close();
-                    }
-                })
-                .and()
+                .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
@@ -64,6 +60,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated();
         httpSecurity.addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
         httpSecurity.exceptionHandling().accessDeniedHandler(accessDeniedHandler());
+        httpSecurity.exceptionHandling().authenticationEntryPoint(authenticationDeniedHandler());
     }
 
     @Bean

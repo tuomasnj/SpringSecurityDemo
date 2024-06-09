@@ -12,6 +12,9 @@ import com.alivold.util.LoginUserInfoUtil;
 import com.alivold.util.RedisCache;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -38,7 +41,7 @@ public class LoginServiceImpl implements LoginService {
     private LoginUserInfoUtil loginUserInfoUtil;
 
     @Override
-    public ResponseResult login(SysUser sysUser) {
+    public ResponseEntity<ResponseResult> login(SysUser sysUser) {
         //进行用户认证
         Authentication authenticate = null;
         try{
@@ -51,7 +54,7 @@ public class LoginServiceImpl implements LoginService {
         }
         //如果用户认证失败，提示
         if(ObjectUtil.isNull(authenticate)){
-            return ResponseResult.fail("登陆失败");
+            return new ResponseEntity(ResponseResult.fail(), new HttpHeaders(), HttpStatus.OK);
         }
         //获取用户信息，根据userid生成token
         LoginUser loginUser = (LoginUser) authenticate.getPrincipal();
@@ -60,9 +63,9 @@ public class LoginServiceImpl implements LoginService {
 
         //存入redis
         redisCache.setCacheObject(jwt, loginUser, 60* 60);
-        JSONObject res = new JSONObject();
-        res.put("token", jwt);
-        return ResponseResult.success(res);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("apiToken", jwt);
+        return new ResponseEntity(ResponseResult.success(), headers, HttpStatus.OK);
     }
 
     @Override
