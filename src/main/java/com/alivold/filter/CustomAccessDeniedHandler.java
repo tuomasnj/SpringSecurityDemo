@@ -2,6 +2,7 @@ package com.alivold.filter;
 
 import com.alivold.resp.ResponseResult;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.web.access.AccessDeniedHandler;
@@ -16,6 +17,7 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
         response.setContentType("application/json;charset=utf-8");
+        response.setStatus(HttpServletResponse.SC_OK);
         PrintWriter out = response.getWriter();
         ResponseResult respBean = ResponseResult.fail("您没有权限访问");
         out.write(new ObjectMapper().writeValueAsString(respBean));

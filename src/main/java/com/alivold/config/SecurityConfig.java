@@ -61,6 +61,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity.addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
         httpSecurity.exceptionHandling().accessDeniedHandler(accessDeniedHandler());
         httpSecurity.exceptionHandling().authenticationEntryPoint(authenticationDeniedHandler());
+        httpSecurity.cors();
     }
 
     @Bean
